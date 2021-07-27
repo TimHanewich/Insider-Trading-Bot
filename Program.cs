@@ -1,4 +1,6 @@
 ﻿using System;
+using SimulatedInvesting;
+using Newtonsoft.Json;
 
 namespace Insider_Trading_Bot
 {
@@ -6,7 +8,7 @@ namespace Insider_Trading_Bot
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }
