@@ -58,7 +58,7 @@ namespace Insider_Trading_Bot
             UpdateStatus(QuantityToBuy.ToString("#,##0") + " shares are affordable.");
 
             //Buy it
-            UpdateStatus("Purchasing...");
+            UpdateStatus("Invoking purchase...");
             try
             {
                 ExecuteEquityTrade.Invoke(Symbol, QuantityToBuy, TransactionType.Buy);
@@ -67,7 +67,6 @@ namespace Insider_Trading_Bot
             {
 
             }
-            UpdateStatus("Purchase of " + QuantityToBuy.ToString() + " shares successful.");
 
             //Wait to sell
             UpdateStatus("Entering waiting period.");
@@ -136,17 +135,17 @@ namespace Insider_Trading_Bot
             }
 
             //Actually dump them
-            UpdateStatus("Sell trigger occured. Proceeding to sell.");
+            UpdateStatus("Sell trigger occured. Invoking sell trigger.");
             try
             {
                 ExecuteEquityTrade.Invoke(Symbol, QuantityToBuy, TransactionType.Sell);
             }
-            catch (Exception ex)
+            catch
             {
-                Active = false;
-                string msg = "Selling failed! Msg: " + ex.Message;
-                throw new Exception(msg);
+
             }
+
+            Active = false;
         }
 
         #region "Status reporting"
