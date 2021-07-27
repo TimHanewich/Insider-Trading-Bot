@@ -7,7 +7,7 @@ namespace Insider_Trading_Bot
 {
     public class InsiderTradingTask
     {
-        public DateTime InsiderTradeFiledAt {get; set;}
+        public DateTime InsiderTradeFiledAtUtc {get; set;}
         public string Symbol {get; set;}
 
         //Trading parameters
@@ -16,6 +16,8 @@ namespace Insider_Trading_Bot
         //The two metrics that will trigger a sell off - in other words, these are the two outs to the holding. If either of these turn true, the stock will be sold.
         public float AnticipatedVolumePercentJump {get; set;} //The percent jump in volume that is anticipated as a result of the insider trading news. After the volume goes up by this amount, the shares will be sold.
         public float AnticipatedPricePercentJump {get; set;} //The percent jump in price that will cause a sell off.
+        public TimeSpan AutoSellTimeOut {get; set;} //If the above two metrics are not hit in a certain amount of time, dump it.
+
 
         //Status reporting
         public bool Active {get; set;}
@@ -23,6 +25,18 @@ namespace Insider_Trading_Bot
         public InsiderTradingTask()
         {
             Statuses = new List<string>();
+
+            //Default parameters
+            BuyDollarsWorth = 3000f;
+            AnticipatedVolumePercentJump = 0.02f;
+            AnticipatedPricePercentJump = 0.015f;
+            AutoSellTimeOut = new TimeSpan(0, 15, 0);
+        }
+
+        public InsiderTradingTask(string symbol, DateTime insider_traded_at_utc)
+        {
+            Symbol = symbol;
+            InsiderTradeFiledAtUtc = insider_traded_at_utc;
         }
 
         #region "Status reporting"
