@@ -17,12 +17,13 @@ namespace Insider_Trading_Bot
         public float AnticipatedVolumePercentJump {get; set;} //The percent jump in volume that is anticipated as a result of the insider trading news. After the volume goes up by this amount, the shares will be sold.
         public float AnticipatedPricePercentJump {get; set;} //The percent jump in price that will cause a sell off.
 
+        //Status reporting
+        public bool Active {get; set;}
 
         public InsiderTradingTask()
         {
             Statuses = new List<string>();
         }
-
 
         #region "Status reporting"
 
@@ -45,7 +46,6 @@ namespace Insider_Trading_Bot
         }
 
         #endregion
-
 
         public async Task<float> GetAverageVolumePerMinuteAsync(string symbol)
         {
