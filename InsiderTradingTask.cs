@@ -36,7 +36,7 @@ namespace Insider_Trading_Bot
             AutoSellTimeOut = new TimeSpan(0, 15, 0);
         }
 
-        public async Task StartAsync(SimulatedPortfolio portfolio)
+        public async Task StartAsync()
         {
             Active = true;
 
