@@ -15,7 +15,13 @@ namespace Insider_Trading_Bot
             itt.InsiderTradeFiledAtUtc = DateTime.UtcNow;
             itt.StatusUpdated += PrintStatus;
             itt.ExecuteEquityTrade += ExecuteTradeAsync;
-            itt.StartAsync().Wait();
+            Task t = itt.StartAsync();
+
+            while (true)
+            {
+                Console.WriteLine("here");
+                Task.Delay(1000).Wait();
+            }
         }
 
         public static void PrintStatus(string msg)
