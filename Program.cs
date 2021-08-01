@@ -1,12 +1,12 @@
 ﻿using System;
 using SimulatedInvesting;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace Insider_Trading_Bot
 {
     class Program
     {
-        public static SimulatedPortfolio Portfolio;
 
         static void Main(string[] args)
         {
@@ -15,12 +15,7 @@ namespace Insider_Trading_Bot
             itt.InsiderTradeFiledAtUtc = DateTime.UtcNow;
             itt.StatusUpdated += PrintStatus;
             itt.ExecuteEquityTrade += ExecuteTradeAsync;
-
-            Portfolio = SimulatedPortfolio.Create("TimHanewich");
-            Portfolio.EditCash(50000, CashTransactionType.Edit);
-
             itt.StartAsync().Wait();
-
         }
 
         public static void PrintStatus(string msg)
@@ -32,7 +27,9 @@ namespace Insider_Trading_Bot
         {
             try
             {
+                SimulatedPortfolio Portfolio = PortfolioCloudInterface.DownloadPortfolioAsync().Result;
                 Portfolio.TradeEquityAsync(symbol, quantity, tt).Wait();
+                PortfolioCloudInterface.UploadPortfolioAsync(Portfolio).Wait();
                 Console.WriteLine("Executed trade: " + quantity.ToString("#,##0") + " shares of " + symbol.ToUpper() + " - " + tt.ToString());
             }
             catch (Exception ex)
